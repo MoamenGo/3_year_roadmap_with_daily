@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" rx="0" fill="#09090b"/>
-  <rect x="192" y="192" width="640" height="640" rx="140" fill="#f4f4f5"/>
-  <text x="512" y="600" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-weight="700" font-size="300" fill="#09090b">3Y</text>
-  <rect x="312" y="680" width="400" height="28" rx="14" fill="#f59e0b"/>
+  <rect width="1024" height="1024" fill="#fbe1d1"/>
+  <text x="512" y="610" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="400" font-size="400" letter-spacing="-16" fill="#5d2a1a">3Y</text>
+  <rect x="352" y="700" width="320" height="20" rx="10" fill="#5d2a1a" opacity="0.85"/>
 </svg>

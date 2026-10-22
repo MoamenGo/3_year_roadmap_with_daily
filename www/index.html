@@ -1,23 +1,84 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>3-Year (1,095-Day) Full-Stack Web, Mobile &amp; Desktop Development Roadmap Canvas</title>
-  <meta name="theme-color" content="#09090b" />
+  <meta name="theme-color" content="#ffffff" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icons/icon-192.png" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="tailwind.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    @font-face {
+      font-family: 'Inter Variable';
+      font-style: normal;
+      font-display: swap;
+      font-weight: 100 900;
+      src: url('fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
     }
+    @font-face {
+      font-family: 'Source Serif 4 Variable';
+      font-style: normal;
+      font-display: swap;
+      font-weight: 200 900;
+      src: url('fonts/source-serif-4-latin-wght-normal.woff2') format('woff2-variations');
+    }
+    @font-face {
+      font-family: 'Source Serif 4 Variable';
+      font-style: italic;
+      font-display: swap;
+      font-weight: 200 900;
+      src: url('fonts/source-serif-4-latin-wght-italic.woff2') format('woff2-variations');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono Variable';
+      font-style: normal;
+      font-display: swap;
+      font-weight: 100 800;
+      src: url('fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
+    }
+    :root {
+      --color-ink-black: #17191c;
+      --color-paper-white: #ffffff;
+      --color-mist-gray: #f2f2f3;
+      --color-fog-white: #fafafb;
+      --color-slate-gray: #777b86;
+      --color-ash-gray: #979799;
+      --color-smoke-gray: #a3a6af;
+      --color-blush-peach: #fbe1d1;
+      --color-sienna-brown: #5d2a1a;
+      --shadow-modal: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 8px 40px 0 rgba(0, 0, 0, 0.1);
+    }
+    body {
+      font-family: 'Inter Variable', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 430;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Editorial serif headings: always regular weight, tight tracking */
+    h1, h2, h3, h4, .font-serif {
+      font-family: 'Source Serif 4 Variable', Georgia, serif;
+      font-weight: 400 !important;
+      letter-spacing: -0.015em;
+    }
+    h1 {
+      letter-spacing: -0.02em;
+    }
+    /* Labels & numbers read as quiet sans; real code stays monospace */
     .font-mono-code {
-      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-family: 'Inter Variable', Inter, sans-serif;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
+    code.font-mono-code, code, pre {
+      font-family: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    /* Every button & link-button is a pill */
+    button.rounded-lg, a.rounded-lg, button.rounded, a.rounded {
+      border-radius: 9999px;
+    }
+    select, input[type="text"], input[type="number"] {
+      border-radius: 16px;
     }
     .canvas-grid {
       background-image: radial-gradient(rgba(113, 113, 122, 0.18) 1px, transparent 1px);
@@ -68,6 +129,97 @@
     }
     .day-slide {
       animation: day-slide-in 0.22s ease-out;
+    }
+    .sheet-root {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .sheet-root.is-open {
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .sheet-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(23, 25, 28, 0.38);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+    .sheet-root.is-open .sheet-backdrop {
+      opacity: 1;
+    }
+    .sheet-panel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 -8px 40px rgba(0, 0, 0, 0.12);
+      transform: translateY(100%);
+      transition: transform 0.34s cubic-bezier(0.32, 0.72, 0, 1);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .sheet-root.is-open .sheet-panel {
+      transform: translateY(0);
+    }
+    .sheet-body {
+      flex: 1;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sheet-handle {
+      display: flex;
+      justify-content: center;
+      padding: 10px 0 2px;
+      touch-action: none;
+    }
+    .sheet-handle span {
+      width: 40px;
+      height: 4px;
+      border-radius: 9999px;
+      background: #dcdcdf;
+    }
+    .dark .sheet-handle span {
+      background: #3b3e45;
+    }
+    body.sheet-lock {
+      overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .sheet-handle {
+        display: none;
+      }
+      .sheet-panel {
+        left: 50%;
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        width: min(560px, calc(100vw - 48px));
+        max-height: min(80vh, 760px);
+        border-radius: 24px;
+        box-shadow: var(--shadow-modal);
+        opacity: 0;
+        transform: translate(-50%, -46%) scale(0.97);
+        transition: transform 0.26s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease;
+      }
+      .sheet-root.is-open .sheet-panel {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    #toast {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
     }
   </style>
 </head>
@@ -204,7 +356,7 @@
       </div>
 
       <!-- Month, Week & Day Navigator Bar -->
-      <div class="order-last md:order-none bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 md:p-4 space-y-3 min-w-0">
+      <div id="daily-navigator" class="hidden md:block bg-white dark:bg-zinc-900 md:border border-zinc-200 dark:border-zinc-800 rounded-xl md:p-4 space-y-3 min-w-0">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           <div class="grid grid-cols-[auto_minmax(0,1fr)] sm:flex sm:flex-wrap items-center gap-2 min-w-0">
             <label for="select-month" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Month (1–36):</label>
@@ -265,7 +417,7 @@
         </div>
 
         <!-- Right: Selected Node Inspector Drawer -->
-        <div class="lg:col-span-5 xl:col-span-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 sm:p-5 sticky top-32">
+        <div class="hidden md:block lg:col-span-5 xl:col-span-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 sm:p-5 lg:sticky lg:top-32">
           <div id="node-inspector"></div>
         </div>
       </div>
@@ -367,6 +519,25 @@
   </nav>
 
 
+  <!-- Popup Sheet -->
+  <div id="sheet-root" class="sheet-root" aria-hidden="true">
+    <div class="sheet-backdrop" data-sheet-close></div>
+    <section class="sheet-panel bg-white dark:bg-zinc-900" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-handle md:hidden"><span></span></div>
+      <header class="sheet-header flex items-start justify-between gap-3 px-5 pt-2 md:pt-6 pb-4">
+        <div class="min-w-0">
+          <p id="sheet-eyebrow" class="text-[13px] text-zinc-400 dark:text-zinc-500"></p>
+          <h2 id="sheet-title" class="text-[26px] leading-tight text-zinc-900 dark:text-white"></h2>
+        </div>
+        <button type="button" data-sheet-close aria-label="Close" class="shrink-0 w-9 h-9 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 flex items-center justify-center hover:bg-zinc-200 dark:hover:bg-zinc-700 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </header>
+      <div id="sheet-body" class="sheet-body px-5 pb-6"></div>
+      <footer id="sheet-footer" class="hidden"></footer>
+    </section>
+  </div>
+
   <!-- Reset Confirmation Modal -->
   <div id="reset-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl max-w-sm w-full p-5 shadow-xl">
@@ -380,8 +551,8 @@
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-4 py-2.5 rounded-lg shadow-lg text-xs font-medium flex items-center gap-2">
-    <span class="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-600"></span>
+  <div id="toast" class="fixed bottom-24 md:bottom-8 z-[70] hidden bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-5 py-3 rounded-full shadow-popover text-[13px] font-medium flex items-center gap-2.5 whitespace-nowrap">
+    <span class="w-2 h-2 rounded-full bg-peach"></span>
     <span id="toast-message">Copied to clipboard!</span>
   </div>
 
@@ -2605,7 +2776,7 @@
     const STORAGE_KEY = 'swe_roadmap_3year_canvas_v2';
     let state = {
       activeTab: 'daily',
-      theme: 'dark',
+      theme: 'light',
       activeYear: 1,
       activeMonth: 1,
       activeWeek: 'all',
@@ -2638,7 +2809,11 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          state.theme = parsed.theme || 'dark';
+          state.theme = parsed.theme || 'light';
+          if (!localStorage.getItem('roadmap-steep-theme')) {
+            state.theme = 'light';
+            localStorage.setItem('roadmap-steep-theme', '1');
+          }
           state.completedDays = parsed.completedDays || {};
           state.completedSkills = parsed.completedSkills || {};
           state.bookmarkedUrls = parsed.bookmarkedUrls || {};
@@ -3031,7 +3206,11 @@
             <div class="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
               <div class="h-full bg-emerald-500 transition-all duration-300" style="width: ${totalPct}%"></div>
             </div>
-            <h4 class="text-[13px] font-bold text-zinc-900 dark:text-white leading-snug">${d.weekTopic}</h4>
+            <h4 class="text-[19px] leading-snug text-zinc-900 dark:text-white">${d.weekTopic}</h4>
+            <button type="button" data-open-filters class="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-[13px] text-zinc-700 dark:text-zinc-200">
+              <span class="truncate">Month ${d.month} · ${d.monthTitle}</span>
+              <span class="shrink-0 text-zinc-500">Change ⌄</span>
+            </button>
             <div class="flex gap-1.5 overflow-x-auto no-scrollbar -mx-1 px-1">${chipsHtml}</div>
           </div>
 
@@ -3123,7 +3302,7 @@
       if (!bar) return;
       const dark = state.theme === 'dark';
       bar.setOverlaysWebView({ overlay: false }).catch(() => {});
-      bar.setBackgroundColor({ color: dark ? '#18181b' : '#ffffff' }).catch(() => {});
+      bar.setBackgroundColor({ color: dark ? '#17191c' : '#ffffff' }).catch(() => {});
       bar.setStyle({ style: dark ? 'DARK' : 'LIGHT' }).catch(() => {});
     }
 
@@ -3161,6 +3340,10 @@
       // Android hardware back button
       if (plugins.App) {
         plugins.App.addListener('backButton', () => {
+          if (isSheetOpen()) {
+            closeSheet();
+            return;
+          }
           const resetModal = document.getElementById('reset-modal');
           const openDetails = document.querySelector('details.day-resources[open]');
           if (resetModal && !resetModal.classList.contains('hidden')) {
@@ -3179,6 +3362,202 @@
           }
         });
       }
+    }
+
+
+    // --- POPUP SHEET: bottom sheet on phones, centered dialog on larger screens ---
+    const sheetState = { token: 0, restore: null, onClose: null };
+
+    function isSheetOpen() {
+      return document.getElementById('sheet-root').classList.contains('is-open');
+    }
+
+    function flushSheetRestore() {
+      if (sheetState.restore) {
+        const restore = sheetState.restore;
+        sheetState.restore = null;
+        restore();
+      }
+    }
+
+    function sheetButtonHtml(btn, i) {
+      const base = 'flex-1 px-5 py-3 rounded-full text-[14px] font-medium transition active:scale-[0.98]';
+      const cls = btn.variant === 'ghost'
+        ? `${base} border border-zinc-900 dark:border-zinc-100 text-zinc-900 dark:text-zinc-100 bg-transparent`
+        : `${base} bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900`;
+      return `<button type="button" data-sheet-action="${i}" class="${cls}">${btn.label}</button>`;
+    }
+
+    function openSheet({ eyebrow = '', title = '', html = '', bodyEl = null, footer = null, onClose = null }) {
+      const root = document.getElementById('sheet-root');
+      const body = document.getElementById('sheet-body');
+      const foot = document.getElementById('sheet-footer');
+      flushSheetRestore();
+      sheetState.token++;
+      sheetState.onClose = onClose;
+
+      document.getElementById('sheet-eyebrow').textContent = eyebrow;
+      document.getElementById('sheet-eyebrow').classList.toggle('hidden', !eyebrow);
+      document.getElementById('sheet-title').textContent = title;
+
+      body.innerHTML = '';
+      if (bodyEl) {
+        const parent = bodyEl.parentNode;
+        const next = bodyEl.nextSibling;
+        const hadHidden = bodyEl.classList.contains('hidden');
+        bodyEl.classList.remove('hidden');
+        body.appendChild(bodyEl);
+        sheetState.restore = () => {
+          if (hadHidden) bodyEl.classList.add('hidden');
+          parent.insertBefore(bodyEl, next);
+        };
+      } else {
+        body.innerHTML = html;
+      }
+      body.scrollTop = 0;
+
+      if (footer && footer.length) {
+        foot.innerHTML = footer.map(sheetButtonHtml).join('');
+        foot.className = 'sheet-footer flex gap-2.5 px-5 pt-3 pb-4 border-t border-zinc-200 dark:border-zinc-800';
+        foot.querySelectorAll('[data-sheet-action]').forEach(b => {
+          b.addEventListener('click', () => footer[parseInt(b.getAttribute('data-sheet-action'), 10)].onClick());
+        });
+      } else {
+        foot.innerHTML = '';
+        foot.className = 'hidden';
+      }
+
+      const panel = root.querySelector('.sheet-panel');
+      panel.style.transform = '';
+      root.classList.add('is-open');
+      root.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('sheet-lock');
+    }
+
+    function closeSheet() {
+      const root = document.getElementById('sheet-root');
+      if (!root.classList.contains('is-open')) return;
+      root.classList.remove('is-open');
+      root.setAttribute('aria-hidden', 'true');
+      root.querySelector('.sheet-panel').style.transform = '';
+      document.body.classList.remove('sheet-lock');
+      const token = sheetState.token;
+      const cb = sheetState.onClose;
+      sheetState.onClose = null;
+      setTimeout(() => {
+        if (sheetState.token !== token || isSheetOpen()) return;
+        flushSheetRestore();
+        document.getElementById('sheet-body').innerHTML = '';
+      }, 340);
+      if (cb) cb();
+    }
+
+    function resourceRowHtml(r) {
+      let host = '';
+      try { host = new URL(r.url).hostname.replace(/^www\./, ''); } catch (e) { host = ''; }
+      return `
+        <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 py-3 border-b border-zinc-200/80 dark:border-zinc-800 last:border-0">
+          <span class="shrink-0 w-9 h-9 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 flex items-center justify-center text-[12px] font-medium">${r.tag.slice(0, 2)}</span>
+          <span class="min-w-0 flex-1">
+            <span class="block text-[15px] leading-snug text-zinc-900 dark:text-zinc-100 group-hover:underline">${r.title}</span>
+            <span class="block text-[13px] text-zinc-500 dark:text-zinc-400 truncate">${host} · ${r.tag}</span>
+          </span>
+          <span class="shrink-0 text-zinc-400 text-[15px]">→</span>
+        </a>`;
+    }
+
+    function openResourcesSheet(dayNumber) {
+      const d = ALL_DAYS[dayNumber - 1];
+      if (!d) return;
+      const dr = getDayResources(d);
+      const featured = dr.featured ? `
+        <a href="${dr.featured.url}" target="_blank" rel="noopener noreferrer" class="block rounded-xl bg-amber-50 text-amber-700 p-5 mb-5">
+          <span class="block text-[13px] opacity-80">Today's featured resource</span>
+          <span class="block font-serif text-[22px] leading-snug mt-1">${dr.featured.title}</span>
+          <span class="inline-block text-[14px] mt-2">Open resource →</span>
+        </a>` : '';
+      openSheet({
+        eyebrow: `Day ${d.dayNumber} · Week ${d.week} · ${d.badge}`,
+        title: 'Learning resources',
+        html: `
+          ${featured}
+          <p class="text-[13px] text-zinc-400 dark:text-zinc-500">Docs, courses, books &amp; practice</p>
+          <div class="mb-5">${dr.curated.map(resourceRowHtml).join('')}</div>
+          <p class="text-[13px] text-zinc-400 dark:text-zinc-500">Explore today's concept</p>
+          <div>${dr.search.map(resourceRowHtml).join('')}</div>
+        `
+      });
+    }
+
+    function openFiltersSheet() {
+      const nav = document.getElementById('daily-navigator');
+      if (!nav) return;
+      openSheet({ eyebrow: 'Navigate the roadmap', title: 'Month, week & day', bodyEl: nav });
+    }
+
+    function openInspectorSheet() {
+      const inspector = document.getElementById('node-inspector');
+      const found = findNodeById(state.selectedNodeId);
+      openSheet({ eyebrow: `Phase ${found.phase.number} · Architecture node`, title: found.node.title, bodyEl: inspector });
+    }
+
+    function openResetSheet() {
+      openSheet({
+        eyebrow: 'This cannot be undone',
+        title: 'Reset roadmap progress?',
+        html: '<p class="text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-300">This clears every checked daily lesson, skill milestone and bookmarked resource saved on this device.</p>',
+        footer: [
+          { label: 'Cancel', variant: 'ghost', onClick: closeSheet },
+          { label: 'Reset everything', variant: 'primary', onClick: () => { closeSheet(); document.getElementById('btn-confirm-reset').click(); } }
+        ]
+      });
+    }
+
+    function initSheet() {
+      const root = document.getElementById('sheet-root');
+      const panel = root.querySelector('.sheet-panel');
+
+      document.addEventListener('click', e => {
+        const res = e.target.closest('[data-open-resources]');
+        if (res) { openResourcesSheet(parseInt(res.getAttribute('data-open-resources'), 10)); return; }
+        if (e.target.closest('[data-open-filters]')) { openFiltersSheet(); return; }
+        if (e.target.closest('[data-sheet-close]')) closeSheet();
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && isSheetOpen()) closeSheet();
+      });
+
+      // Drag the handle / header down to dismiss on phones
+      let dragStartY = null;
+      let dragDy = 0;
+      root.querySelectorAll('.sheet-handle, .sheet-header').forEach(el => {
+        el.addEventListener('touchstart', e => {
+          if (!isMobileView()) return;
+          dragStartY = e.touches[0].clientY;
+          dragDy = 0;
+          panel.style.transition = 'none';
+        }, { passive: true });
+        el.addEventListener('touchmove', e => {
+          if (dragStartY === null) return;
+          dragDy = Math.max(0, e.touches[0].clientY - dragStartY);
+          panel.style.transform = `translateY(${dragDy}px)`;
+        }, { passive: true });
+        el.addEventListener('touchend', () => {
+          if (dragStartY === null) return;
+          panel.style.transition = '';
+          dragStartY = null;
+          if (dragDy > 110) closeSheet();
+          else panel.style.transform = '';
+        });
+      });
+
+      // Jumping to a day from the filters sheet closes it so the lesson is visible
+      const jumpBtn = document.getElementById('btn-jump-day');
+      if (jumpBtn) jumpBtn.addEventListener('click', () => { if (isSheetOpen()) closeSheet(); });
+
+      window.addEventListener('resize', () => {
+        if (isSheetOpen() && !isMobileView() && document.getElementById('sheet-body').contains(document.getElementById('daily-navigator'))) closeSheet();
+      });
     }
 
 
@@ -3219,33 +3598,10 @@
             </div>
           </div>
 
-          ${(() => {
-            const dr = getDayResources(d);
-            const linkCls = 'flex items-center justify-between gap-2 px-2 py-1 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300';
-            const tagCls = 'shrink-0 text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-zinc-200/70 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400';
-            const row = r => `<li><a href="${r.url}" target="_blank" rel="noopener noreferrer" class="${linkCls}"><span class="truncate">${r.title} ↗</span><span class="${tagCls}">${r.tag}</span></a></li>`;
-            return `
-            <details class="day-resources group rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-[11px]">
-              <summary class="cursor-pointer select-none list-none px-2.5 py-1.5 flex items-center justify-between font-semibold text-zinc-800 dark:text-zinc-200">
-                <span>📚 Resources (${dr.curated.length + dr.search.length})</span>
-                <span class="text-zinc-400 group-open:rotate-180 transition">▾</span>
-              </summary>
-              <div class="px-1.5 pb-2 space-y-2">
-                ${dr.featured ? `<div class="mx-1 p-2 rounded-md bg-amber-50 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-900/50">
-                  <div class="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-0.5">Today's Featured Resource</div>
-                  <a href="${dr.featured.url}" target="_blank" rel="noopener noreferrer" class="font-semibold text-zinc-900 dark:text-zinc-100 hover:underline">${dr.featured.title} ↗</a>
-                </div>` : ''}
-                <div>
-                  <div class="px-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-0.5">Docs, Courses, Books &amp; Practice</div>
-                  <ul class="space-y-0.5">${dr.curated.map(row).join('')}</ul>
-                </div>
-                <div>
-                  <div class="px-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-0.5">Explore Today's Concept</div>
-                  <ul class="space-y-0.5">${dr.search.map(row).join('')}</ul>
-                </div>
-              </div>
-            </details>`;
-          })()}
+          <button type="button" data-open-resources="${d.dayNumber}" class="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[12px] font-medium text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+            <span>📚 Resources · ${(() => { const r = getDayResources(d); return r.curated.length + r.search.length; })()} links</span>
+            <span class="text-zinc-400">Open →</span>
+          </button>
 
           <div class="pt-2 border-t border-zinc-200/80 dark:border-zinc-800/80 flex items-center justify-between gap-2 text-[11px]">
             <a href="${d.primaryUrl}" target="_blank" rel="noopener noreferrer" class="font-semibold text-zinc-900 dark:text-zinc-200 hover:underline truncate">
@@ -3372,6 +3728,7 @@
           saveState();
           renderCanvasView();
           renderNodeInspector();
+          if (isMobileView()) openInspectorSheet();
         });
       });
 
@@ -3953,9 +4310,7 @@
       });
 
       const resetModal = document.getElementById('reset-modal');
-      document.getElementById('btn-open-reset-modal').addEventListener('click', () => {
-        resetModal.classList.remove('hidden');
-      });
+      document.getElementById('btn-open-reset-modal').addEventListener('click', openResetSheet);
       document.getElementById('btn-cancel-reset').addEventListener('click', () => {
         resetModal.classList.add('hidden');
       });
@@ -3970,6 +4325,7 @@
       });
 
       initMobileApp();
+      initSheet();
       renderAll();
     });
   </script>
