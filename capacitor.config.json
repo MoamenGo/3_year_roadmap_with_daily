@@ -1,0 +1,8 @@
+{
+  "appId": "com.moamengo.roadmap3y",
+  "appName": "3Y Dev Roadmap",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#09090b"
+  }
+}

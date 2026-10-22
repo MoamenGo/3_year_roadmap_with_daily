@@ -1,0 +1,22 @@
+{
+  "name": "three-year-dev-roadmap",
+  "version": "1.0.0",
+  "description": "3-Year (1,095-Day) Full-Stack Web, Mobile & Desktop Development Roadmap with daily resources — web + Android app",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i tailwind.input.css -o www/tailwind.css --minify",
+    "build": "npm run build:css && npx cap sync android"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@capacitor/android": "^7.6.9",
+    "@capacitor/core": "^7.6.9"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.9",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^3.4.17"
+  }
+}
