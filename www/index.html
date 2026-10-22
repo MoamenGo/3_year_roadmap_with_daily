@@ -2,7 +2,7 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>3-Year (1,095-Day) Full-Stack Web, Mobile &amp; Desktop Development Roadmap Canvas</title>
   <meta name="theme-color" content="#09090b" />
   <link rel="manifest" href="manifest.webmanifest" />
@@ -34,12 +34,47 @@
       background: rgba(113, 113, 122, 0.4);
       border-radius: 9999px;
     }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    select {
+      max-width: 100%;
+      text-overflow: ellipsis;
+    }
+    a, button, summary, label {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .bottom-nav {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      scrollbar-width: none;
+    }
+    @media (max-width: 767px) {
+      body {
+        padding-bottom: calc(64px + env(safe-area-inset-bottom));
+      }
+      header {
+        padding-top: calc(env(safe-area-inset-top) + 10px) !important;
+      }
+    }
+    @keyframes day-slide-in {
+      from { opacity: 0; transform: translateX(var(--slide-from, 24px)); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .day-slide {
+      animation: day-slide-in 0.22s ease-out;
+    }
   </style>
 </head>
 <body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col selection:bg-zinc-900 selection:text-white dark:selection:bg-zinc-100 dark:selection:text-zinc-900 transition-colors">
 
   <!-- Top Header & Global Progress -->
-  <header class="sticky top-0 z-30 bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-b border-zinc-200 dark:border-zinc-800 px-4 py-3 sm:px-6">
+  <header class="md:sticky md:top-0 z-30 bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-b border-zinc-200 dark:border-zinc-800 px-4 py-3 sm:px-6">
     <div class="max-w-7xl mx-auto flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
       <div class="flex items-start sm:items-center justify-between gap-3">
         <div class="flex items-center gap-3">
@@ -49,16 +84,16 @@
           <div>
             <div class="flex items-center gap-2 flex-wrap">
               <h1 class="text-base sm:text-lg font-bold tracking-tight text-zinc-900 dark:text-white">Software Engineering Roadmap</h1>
-              <span class="text-[11px] font-mono-code font-medium px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700">1,095 Days • 156 Weeks • 36 Months</span>
+              <span class="hidden sm:inline text-[11px] font-mono-code font-medium px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700">1,095 Days • 156 Weeks • 36 Months</span>
             </div>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400">Comprehensive daily curriculum: CS Foundations, Full-Stack Web, Mobile (iOS/Android), Desktop &amp; DevOps</p>
+            <p class="hidden sm:block text-xs text-zinc-500 dark:text-zinc-400">Comprehensive daily curriculum: CS Foundations, Full-Stack Web, Mobile (iOS/Android), Desktop &amp; DevOps</p>
           </div>
         </div>
       </div>
 
       <!-- Progress & Utility Controls -->
       <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
-        <div class="flex-1 min-w-[175px] sm:w-48 bg-zinc-100/80 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1.5">
+        <div class="hidden sm:block flex-1 min-w-[175px] sm:w-48 bg-zinc-100/80 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1.5">
           <div class="flex items-center justify-between text-[11px] mb-1">
             <span class="text-zinc-500 dark:text-zinc-400 font-medium">Daily Lessons</span>
             <span id="daily-progress-text" class="font-mono-code text-zinc-900 dark:text-zinc-100 font-semibold">0 / 1095 (0.0%)</span>
@@ -68,7 +103,7 @@
           </div>
         </div>
 
-        <div class="flex-1 min-w-[165px] sm:w-44 bg-zinc-100/80 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1.5">
+        <div class="hidden sm:block flex-1 min-w-[165px] sm:w-44 bg-zinc-100/80 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1.5">
           <div class="flex items-center justify-between text-[11px] mb-1">
             <span class="text-zinc-500 dark:text-zinc-400 font-medium">Core Milestones</span>
             <span id="global-progress-text" class="font-mono-code text-zinc-900 dark:text-zinc-100 font-semibold">0 / 28 (0%)</span>
@@ -93,8 +128,8 @@
     </div>
 
     <!-- Navigation Tabs & Filter Bar -->
-    <div class="max-w-7xl mx-auto mt-3 pt-2.5 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
-      <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 sm:pb-0" role="tablist">
+    <div class="max-w-7xl mx-auto mt-2.5 md:mt-3 pt-2.5 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+      <div class="hidden md:flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 sm:pb-0" role="tablist">
         <button type="button" data-tab="daily" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">
           <span>1. Day-by-Day Plan (1,095 Days)</span>
         </button>
@@ -114,14 +149,14 @@
 
       <!-- Global Track Highlighter & Search -->
       <div class="flex items-center gap-2">
-        <div class="relative flex-1 sm:w-56">
+        <div class="relative flex-1 min-w-0 sm:w-56">
           <input id="global-search" type="text" placeholder="Search day, concept, CLI, tool..." class="w-full bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 focus:border-zinc-500 rounded-lg pl-7 pr-6 py-1 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 outline-none transition" />
           <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <button id="btn-clear-search" type="button" class="hidden absolute right-2 top-1 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 text-xs font-bold">✕</button>
         </div>
-        <select id="track-selector" aria-label="Highlight Ecosystem Track" class="bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-500">
+        <select id="track-selector" aria-label="Highlight Ecosystem Track" class="w-32 sm:w-auto shrink-0 bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-500">
           <option value="all">All Ecosystem Tracks</option>
           <option value="ts">JS / TypeScript Unified Track</option>
           <option value="flutter">Dart &amp; Flutter Multiplatform</option>
@@ -134,49 +169,49 @@
   </header>
 
   <!-- Main Content Area -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-5 sm:px-6">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 py-3 sm:px-6 sm:py-5 min-w-0">
 
     <!-- VIEW 0: 3-YEAR DAY-BY-DAY CURRICULUM (DAYS 1 TO 1095) -->
-    <section id="view-daily" class="space-y-4">
+    <section id="view-daily" class="flex flex-col gap-3 md:gap-4">
       <!-- Year Overview Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <button type="button" data-year-btn="1" class="year-card-btn text-left p-4 rounded-xl border transition">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono-code font-semibold uppercase px-2 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">Year 1 • Days 1–365</span>
-            <span id="year-1-pct" class="text-xs font-mono-code font-semibold text-zinc-600 dark:text-zinc-400">0 / 365 Days</span>
+      <div class="grid grid-cols-3 gap-2 md:gap-3">
+        <button type="button" data-year-btn="1" class="year-card-btn text-left p-2.5 md:p-4 rounded-xl border transition">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-1">
+            <span class="text-[10px] md:text-[11px] font-mono-code font-semibold uppercase px-1.5 md:px-2 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">Year 1<span class="hidden md:inline"> • Days 1–365</span></span>
+            <span id="year-1-pct" class="text-[10px] md:text-xs font-mono-code font-semibold text-zinc-600 dark:text-zinc-400">0 / 365 Days</span>
           </div>
-          <h3 class="text-sm font-bold text-zinc-900 dark:text-white mt-2">CS Foundations &amp; Full-Stack Web</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">Months 1–12 (Weeks 1–52): C, Pointers, Python, Data Structures &amp; Algorithms, Git, Networking, HTML5/CSS3/Tailwind, JS/TS, React 19, Next.js, Node.js, FastAPI &amp; PostgreSQL.</p>
+          <h3 class="hidden md:block text-sm font-bold text-zinc-900 dark:text-white mt-2">CS Foundations &amp; Full-Stack Web</h3>
+          <p class="hidden md:block text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">Months 1–12 (Weeks 1–52): C, Pointers, Python, Data Structures &amp; Algorithms, Git, Networking, HTML5/CSS3/Tailwind, JS/TS, React 19, Next.js, Node.js, FastAPI &amp; PostgreSQL.</p>
         </button>
 
-        <button type="button" data-year-btn="2" class="year-card-btn text-left p-4 rounded-xl border transition">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono-code font-semibold uppercase px-2 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">Year 2 • Days 366–730</span>
-            <span id="year-2-pct" class="text-xs font-mono-code font-semibold text-zinc-600 dark:text-zinc-400">0 / 365 Days</span>
+        <button type="button" data-year-btn="2" class="year-card-btn text-left p-2.5 md:p-4 rounded-xl border transition">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-1">
+            <span class="text-[10px] md:text-[11px] font-mono-code font-semibold uppercase px-1.5 md:px-2 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">Year 2<span class="hidden md:inline"> • Days 366–730</span></span>
+            <span id="year-2-pct" class="text-[10px] md:text-xs font-mono-code font-semibold text-zinc-600 dark:text-zinc-400">0 / 365 Days</span>
           </div>
-          <h3 class="text-sm font-bold text-zinc-900 dark:text-white mt-2">Mobile Engineering (iOS &amp; Android)</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">Months 13–24 (Weeks 53–102): React Native &amp; Expo, Dart &amp; Flutter, Offline SQLite Sync, Native Android (Kotlin &amp; Jetpack Compose), Native iOS (Swift 6 &amp; SwiftUI), KMP &amp; .NET MAUI.</p>
+          <h3 class="hidden md:block text-sm font-bold text-zinc-900 dark:text-white mt-2">Mobile Engineering (iOS &amp; Android)</h3>
+          <p class="hidden md:block text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">Months 13–24 (Weeks 53–102): React Native &amp; Expo, Dart &amp; Flutter, Offline SQLite Sync, Native Android (Kotlin &amp; Jetpack Compose), Native iOS (Swift 6 &amp; SwiftUI), KMP &amp; .NET MAUI.</p>
         </button>
 
-        <button type="button" data-year-btn="3" class="year-card-btn text-left p-4 rounded-xl border transition">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-mono-code font-semibold uppercase px-2 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">Year 3 • Days 731–1,095</span>
-            <span id="year-3-pct" class="text-xs font-mono-code font-semibold text-zinc-600 dark:text-zinc-400">0 / 365 Days</span>
+        <button type="button" data-year-btn="3" class="year-card-btn text-left p-2.5 md:p-4 rounded-xl border transition">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-1">
+            <span class="text-[10px] md:text-[11px] font-mono-code font-semibold uppercase px-1.5 md:px-2 py-0.5 rounded bg-zinc-200/80 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">Year 3<span class="hidden md:inline"> • Days 731–1,095</span></span>
+            <span id="year-3-pct" class="text-[10px] md:text-xs font-mono-code font-semibold text-zinc-600 dark:text-zinc-400">0 / 365 Days</span>
           </div>
-          <h3 class="text-sm font-bold text-zinc-900 dark:text-white mt-2">Desktop OS, Systems &amp; DevOps</h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">Months 25–36 (Weeks 103–156): Rust Systems, Tauri v2, Electron, Flutter/Compose Desktop, WinUI 3, C++ Qt 6, Linux GTK 4, Playwright, Docker, CI/CD, AI RAG &amp; 3-Platform Capstone.</p>
+          <h3 class="hidden md:block text-sm font-bold text-zinc-900 dark:text-white mt-2">Desktop OS, Systems &amp; DevOps</h3>
+          <p class="hidden md:block text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">Months 25–36 (Weeks 103–156): Rust Systems, Tauri v2, Electron, Flutter/Compose Desktop, WinUI 3, C++ Qt 6, Linux GTK 4, Playwright, Docker, CI/CD, AI RAG &amp; 3-Platform Capstone.</p>
         </button>
       </div>
 
       <!-- Month, Week & Day Navigator Bar -->
-      <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 space-y-3">
+      <div class="order-last md:order-none bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 md:p-4 space-y-3 min-w-0">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-          <div class="flex flex-wrap items-center gap-2">
+          <div class="grid grid-cols-[auto_minmax(0,1fr)] sm:flex sm:flex-wrap items-center gap-2 min-w-0">
             <label for="select-month" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Month (1–36):</label>
-            <select id="select-month" class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-900 dark:text-white outline-none"></select>
+            <select id="select-month" class="w-full sm:w-auto sm:max-w-xs min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-900 dark:text-white outline-none"></select>
 
-            <label for="select-week" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 ml-1">Week (1–156):</label>
-            <select id="select-week" class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-900 dark:text-white outline-none">
+            <label for="select-week" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 sm:ml-1">Week (1–156):</label>
+            <select id="select-week" class="w-full sm:w-auto sm:max-w-xs min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-900 dark:text-white outline-none">
               <option value="all">All Weeks in Selected Month</option>
             </select>
           </div>
@@ -200,7 +235,7 @@
       </div>
 
       <!-- Active Month Header Banner -->
-      <div id="daily-month-banner" class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 sm:p-5"></div>
+      <div id="daily-month-banner" class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 sm:p-5"></div>
 
       <!-- Day-by-Day Lesson Cards Container -->
       <div id="daily-lessons-container" class="space-y-4"></div>
@@ -304,6 +339,33 @@
     </section>
 
   </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav id="bottom-nav" class="bottom-nav md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-zinc-900/95 backdrop-blur border-t border-zinc-200 dark:border-zinc-800">
+    <div class="grid grid-cols-5 h-16">
+      <button type="button" data-bnav="daily" class="bnav-btn flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3M4 11h16M5 5h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z"/></svg>
+        <span>Today</span>
+      </button>
+      <button type="button" data-bnav="canvas" class="bnav-btn flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5h6v6H4zM14 5h6v6h-6zM4 15h6v4H4zM14 15h6v4h-6z"/></svg>
+        <span>Canvas</span>
+      </button>
+      <button type="button" data-bnav="timeline" class="bnav-btn flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>
+        <span>Phases</span>
+      </button>
+      <button type="button" data-bnav="tracks" class="bnav-btn flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l9 5-9 5-9-5 9-5zm-9 9l9 5 9-5M3 16l9 5 9-5"/></svg>
+        <span>Stacks</span>
+      </button>
+      <button type="button" data-bnav="resources" class="bnav-btn flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2V5zm0 14a2 2 0 012-2h13"/></svg>
+        <span>Docs</span>
+      </button>
+    </div>
+  </nav>
+
 
   <!-- Reset Confirmation Modal -->
   <div id="reset-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/70 backdrop-blur-sm flex items-center justify-center p-4">
@@ -2584,6 +2646,7 @@
           state.activeTrack = parsed.activeTrack || 'all';
           state.activeMonth = parsed.activeMonth || 1;
           state.activeYear = Math.ceil(state.activeMonth / 12);
+          state.mobileDay = parsed.mobileDay || null;
         }
       } catch (e) {
         // Fallback to in-memory state
@@ -2600,7 +2663,8 @@
           bookmarkedUrls: state.bookmarkedUrls,
           selectedNodeId: state.selectedNodeId,
           activeTrack: state.activeTrack,
-          activeMonth: state.activeMonth
+          activeMonth: state.activeMonth,
+          mobileDay: state.mobileDay
         }));
       } catch (e) {
         // Ignore storage errors in restricted sandboxes
@@ -2742,7 +2806,7 @@
       document.querySelectorAll('.year-card-btn').forEach(btn => {
         const yr = parseInt(btn.getAttribute('data-year-btn'), 10);
         const isActive = yr === state.activeYear && !state.searchQuery.trim();
-        btn.className = `year-card-btn text-left p-4 rounded-xl border transition ${isActive ? 'bg-white dark:bg-zinc-900 border-zinc-900 dark:border-zinc-100 ring-1 ring-zinc-900 dark:ring-zinc-100 shadow-sm' : 'bg-zinc-100/60 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700'}`;
+        btn.className = `year-card-btn text-left p-2.5 md:p-4 rounded-xl border transition ${isActive ? 'bg-white dark:bg-zinc-900 border-zinc-900 dark:border-zinc-100 ring-1 ring-zinc-900 dark:ring-zinc-100 shadow-sm' : 'bg-zinc-100/60 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700'}`;
       });
 
       populateMonthAndWeekSelectors();
@@ -2811,27 +2875,27 @@
         }
       } else {
         banner.innerHTML = `
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 sm:gap-4">
             <div class="space-y-1.5">
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="text-[11px] font-mono-code font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700">Year ${activeMonthObj.year} • Month ${activeMonthObj.month} of 36</span>
                 <span class="text-xs font-mono-code font-medium text-zinc-600 dark:text-zinc-400">Days ${monthDays[0].dayNumber}–${monthDays[monthDays.length - 1].dayNumber}</span>
                 <span class="text-xs text-zinc-500">• Phase ${activeMonthObj.phaseNumber}</span>
               </div>
-              <h3 class="text-base sm:text-lg font-bold text-zinc-900 dark:text-white">${activeMonthObj.title}</h3>
-              <p class="text-xs text-zinc-600 dark:text-zinc-400">${activeMonthObj.focus}</p>
-              <div class="pt-1">
+              <h3 class="text-sm sm:text-lg font-bold text-zinc-900 dark:text-white">${activeMonthObj.title}</h3>
+              <p class="hidden sm:block text-xs text-zinc-600 dark:text-zinc-400">${activeMonthObj.focus}</p>
+              <div class="hidden sm:block pt-1">
                 <code class="text-[11px] font-mono-code px-2.5 py-1 rounded bg-zinc-100 dark:bg-zinc-950 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 inline-block">$ ${monthCli}</code>
               </div>
             </div>
             <div class="flex flex-wrap items-center gap-2 shrink-0">
-              <a href="${activeMonthObj.primaryUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:opacity-90 transition">
+              <a href="${activeMonthObj.primaryUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-semibold bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:opacity-90 transition">
                 ${activeMonthObj.primaryLabel} ↗
               </a>
               <a href="${activeMonthObj.secondaryUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700 transition">
                 ${activeMonthObj.secondaryLabel} ↗
               </a>
-              <div class="bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1.5 text-right">
+              <div class="hidden sm:block bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1.5 text-right">
                 <div class="text-xs font-mono-code font-bold text-zinc-900 dark:text-zinc-100">${monthDone}/${monthDays.length} (${monthPct}%)</div>
               </div>
             </div>
@@ -2857,6 +2921,11 @@
         searchGrid.innerHTML = matchingDays.map(d => renderSingleDayCardHtml(d)).join('');
         container.appendChild(searchGrid);
         bindDayCardEvents(container);
+        return;
+      }
+
+      if (isMobileView()) {
+        renderMobileDayView(activeMonthObj, container);
         return;
       }
 
@@ -2904,6 +2973,214 @@
         }
       }
     }
+
+    // --- MOBILE APP SHELL: single-day view, bottom navigation & native Android hooks ---
+    const MOBILE_QUERY = window.matchMedia('(max-width: 767px)');
+
+    function isMobileView() {
+      return MOBILE_QUERY.matches;
+    }
+
+    function renderMobileDayView(activeMonthObj, container) {
+      const monthDays = ALL_DAYS.filter(x => x.month === activeMonthObj.month);
+      let pool = state.activeWeek === 'all'
+        ? monthDays
+        : monthDays.filter(x => String(x.week) === String(state.activeWeek));
+      if (!pool.length) pool = monthDays;
+
+      let dayNum = state.highlightedDay || state.mobileDay;
+      if (!pool.some(x => x.dayNumber === dayNum)) {
+        const firstOpen = pool.find(x => !state.completedDays[x.dayNumber]);
+        dayNum = (firstOpen || pool[0]).dayNumber;
+      }
+      state.mobileDay = dayNum;
+      state.highlightedDay = null;
+
+      const d = ALL_DAYS[dayNum - 1];
+      const isDone = !!state.completedDays[d.dayNumber];
+      const weekDays = ALL_DAYS.filter(x => x.week === d.week);
+      const weekDone = weekDays.filter(x => state.completedDays[x.dayNumber]).length;
+      const totalDone = ALL_DAYS.filter(x => state.completedDays[x.dayNumber]).length;
+      const totalPct = ((totalDone / ALL_DAYS.length) * 100).toFixed(1);
+      const slideFrom = state.mobileSlide || 0;
+      state.mobileSlide = 0;
+
+      const chipsHtml = weekDays.map(x => {
+        const active = x.dayNumber === d.dayNumber;
+        const done = !!state.completedDays[x.dayNumber];
+        const cls = active
+          ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border-zinc-900 dark:border-zinc-100'
+          : done
+            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-300/70 dark:border-emerald-800'
+            : 'bg-zinc-50 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800';
+        return `
+          <button type="button" data-mday="${x.dayNumber}" class="shrink-0 min-w-[42px] px-2 py-1.5 rounded-lg border text-[11px] font-mono-code font-semibold flex flex-col items-center leading-tight ${cls}">
+            <span>D${x.dayOfWeek}</span>
+            <span class="text-[9px] font-normal opacity-80">${done ? '✓' : x.dayNumber}</span>
+          </button>`;
+      }).join('');
+
+      const navBtn = 'py-2.5 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 disabled:opacity-40';
+      container.innerHTML = `
+        <div class="space-y-3">
+          <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-mono-code font-semibold px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700">Week ${d.week} • ${weekDone}/${weekDays.length}</span>
+              <span class="text-[11px] font-mono-code text-zinc-500 dark:text-zinc-400">${totalDone}/1095 • ${totalPct}%</span>
+            </div>
+            <div class="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+              <div class="h-full bg-emerald-500 transition-all duration-300" style="width: ${totalPct}%"></div>
+            </div>
+            <h4 class="text-[13px] font-bold text-zinc-900 dark:text-white leading-snug">${d.weekTopic}</h4>
+            <div class="flex gap-1.5 overflow-x-auto no-scrollbar -mx-1 px-1">${chipsHtml}</div>
+          </div>
+
+          <div id="mobile-day-swipe" class="day-slide touch-pan-y" style="--slide-from: ${slideFrom}px">
+            ${renderSingleDayCardHtml(d)}
+          </div>
+
+          <div class="grid grid-cols-[1fr_1.5fr_1fr] gap-2">
+            <button type="button" data-mday="${d.dayNumber - 1}" class="${navBtn}" ${d.dayNumber === 1 ? 'disabled' : ''}>‹ Prev</button>
+            <button type="button" data-mdone="${d.dayNumber}" class="py-2.5 rounded-xl text-xs font-bold ${isDone ? 'bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200' : 'bg-emerald-600 text-white'}">${isDone ? '↺ Mark not done' : '✓ Done & next'}</button>
+            <button type="button" data-mday="${d.dayNumber + 1}" class="${navBtn}" ${d.dayNumber === ALL_DAYS.length ? 'disabled' : ''}>Next ›</button>
+          </div>
+          <p class="text-center text-[10px] text-zinc-400 dark:text-zinc-500">Swipe the lesson left or right to change day</p>
+        </div>
+      `;
+
+      container.querySelectorAll('[data-mday]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const n = parseInt(btn.getAttribute('data-mday'), 10);
+          goToMobileDay(n, n > d.dayNumber ? 1 : -1);
+        });
+      });
+
+      const doneBtn = container.querySelector('[data-mdone]');
+      doneBtn.addEventListener('click', () => {
+        state.completedDays[d.dayNumber] = !isDone;
+        saveState();
+        updateGlobalProgress();
+        if (!isDone && d.dayNumber < ALL_DAYS.length) {
+          showToast(`Day ${d.dayNumber} complete!`);
+          goToMobileDay(d.dayNumber + 1, 1);
+        } else {
+          renderDailyView();
+        }
+      });
+
+      const swipeEl = container.querySelector('#mobile-day-swipe');
+      let startX = 0;
+      let startY = 0;
+      swipeEl.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+      swipeEl.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6) {
+          goToMobileDay(d.dayNumber + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+        }
+      }, { passive: true });
+
+      bindDayCardEvents(container);
+    }
+
+    function goToMobileDay(n, dir) {
+      if (n < 1 || n > ALL_DAYS.length) return;
+      const target = ALL_DAYS[n - 1];
+      state.mobileDay = n;
+      state.mobileSlide = dir > 0 ? 28 : -28;
+      if (target.month !== state.activeMonth) {
+        state.activeMonth = target.month;
+        state.activeWeek = 'all';
+      } else if (state.activeWeek !== 'all') {
+        state.activeWeek = String(target.week);
+      }
+      saveState();
+      renderDailyView();
+      const container = document.getElementById('daily-lessons-container');
+      if (container.getBoundingClientRect().top < 0) {
+        container.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    }
+
+    function updateBottomNav(tabId) {
+      document.querySelectorAll('.bnav-btn').forEach(btn => {
+        const active = btn.getAttribute('data-bnav') === tabId;
+        btn.className = `bnav-btn flex flex-col items-center justify-center gap-0.5 text-[10px] ${active ? 'font-semibold text-zinc-900 dark:text-white' : 'font-medium text-zinc-500 dark:text-zinc-400'}`;
+      });
+    }
+
+    function getNativeCapacitor() {
+      const cap = window.Capacitor;
+      return cap && typeof cap.isNativePlatform === 'function' && cap.isNativePlatform() ? cap : null;
+    }
+
+    function syncNativeStatusBar() {
+      const cap = getNativeCapacitor();
+      const bar = cap && cap.Plugins && cap.Plugins.StatusBar;
+      if (!bar) return;
+      const dark = state.theme === 'dark';
+      bar.setOverlaysWebView({ overlay: false }).catch(() => {});
+      bar.setBackgroundColor({ color: dark ? '#18181b' : '#ffffff' }).catch(() => {});
+      bar.setStyle({ style: dark ? 'DARK' : 'LIGHT' }).catch(() => {});
+    }
+
+    function initMobileApp() {
+      document.querySelectorAll('.bnav-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.getAttribute('data-bnav')));
+      });
+      updateBottomNav(state.activeTab || 'daily');
+
+      let wasMobile = isMobileView();
+      window.addEventListener('resize', () => {
+        const nowMobile = isMobileView();
+        if (nowMobile !== wasMobile) {
+          wasMobile = nowMobile;
+          renderDailyView();
+        }
+      });
+
+      const cap = getNativeCapacitor();
+      if (!cap) return;
+      const plugins = cap.Plugins || {};
+
+      syncNativeStatusBar();
+      const themeBtn = document.getElementById('btn-theme-toggle');
+      if (themeBtn) themeBtn.addEventListener('click', syncNativeStatusBar);
+
+      // Open external links in an in-app browser tab (Chrome Custom Tabs)
+      document.addEventListener('click', e => {
+        const a = e.target.closest('a[href]');
+        if (!a || !/^https?:\/\//i.test(a.href) || !plugins.Browser) return;
+        e.preventDefault();
+        plugins.Browser.open({ url: a.href }).catch(() => window.open(a.href, '_blank'));
+      }, true);
+
+      // Android hardware back button
+      if (plugins.App) {
+        plugins.App.addListener('backButton', () => {
+          const resetModal = document.getElementById('reset-modal');
+          const openDetails = document.querySelector('details.day-resources[open]');
+          if (resetModal && !resetModal.classList.contains('hidden')) {
+            resetModal.classList.add('hidden');
+          } else if (state.activeTab && state.activeTab !== 'daily') {
+            switchTab('daily');
+          } else if (state.searchQuery && state.searchQuery.trim()) {
+            state.searchQuery = '';
+            document.getElementById('global-search').value = '';
+            document.getElementById('btn-clear-search').classList.add('hidden');
+            renderAll();
+          } else if (openDetails) {
+            openDetails.open = false;
+          } else {
+            plugins.App.exitApp();
+          }
+        });
+      }
+    }
+
 
     function renderSingleDayCardHtml(d) {
       const pl = getPointLinks(d);
@@ -3476,6 +3753,9 @@
         btn.className = `tab-btn px-3 py-1.5 rounded-lg text-xs transition flex items-center gap-1.5 ${active ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-semibold' : 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 font-medium'}`;
       });
 
+      updateBottomNav(tabId);
+      window.scrollTo(0, 0);
+
       ['daily', 'canvas', 'timeline', 'tracks', 'resources'].forEach(id => {
         const el = document.getElementById(`view-${id}`);
         if (id === tabId) el.classList.remove('hidden');
@@ -3689,6 +3969,7 @@
         showToast('Roadmap progress reset');
       });
 
+      initMobileApp();
       renderAll();
     });
   </script>
