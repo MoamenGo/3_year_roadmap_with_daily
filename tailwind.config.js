@@ -4,15 +4,36 @@ module.exports = {
   darkMode: 'class',
   content: ['./www/index.html'],
   theme: {
+    // md+ means a genuinely large screen; landscape phones (short height) keep the mobile layout
+    screens: {
+      sm: "640px",
+      md: { raw: "(min-width: 768px) and (min-height: 520px)" },
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px"
+    },
     extend: {
+      fontSize: {
+        xs: ["13px", { lineHeight: "1.45" }],
+        sm: ["15px", { lineHeight: "1.5" }],
+        base: ["16px", { lineHeight: "1.6" }],
+        lg: ["19px", { lineHeight: "1.4" }],
+        xl: ["22px", { lineHeight: "1.3" }],
+        "2xl": ["26px", { lineHeight: "1.2" }]
+      },
+      fontWeight: {
+        medium: "500",
+        semibold: "580",
+        bold: "640"
+      },
       colors: {
         zinc: {
           50: '#fafafb',
           100: '#f2f2f3',
           200: '#ececec',
           300: '#dcdcdf',
-          400: '#a3a6af',
-          500: '#777b86',
+          400: '#8b8f99',
+          500: '#6b6f7a',
           600: '#5f636d',
           700: '#3b3e45',
           800: '#2a2c31',
