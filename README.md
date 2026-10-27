@@ -2,6 +2,12 @@
 
 A day-by-day curriculum covering CS foundations, full-stack web, mobile (iOS/Android) and desktop development, and DevOps. Every day has a curated resource pack, and every lesson point (Concept, Build, Verify, Lab, Deliverable) has its own direct links.
 
+## 🌐 Web version
+
+Open **https://moamengo.github.io/3_year_roadmap_with_daily/** in any browser (phone, tablet or desktop). It works offline after the first visit, and Chrome/Edge show an **Install app** button to add it to your home screen or desktop.
+
+Every push to `main` redeploys the site automatically (`.github/workflows/web-pages.yml`).
+
 ## 📱 Install on Android
 
 1. Open the [**latest release**](https://github.com/MoamenGo/3_year_roadmap_with_daily/releases/latest) on your phone.
@@ -9,10 +15,6 @@ A day-by-day curriculum covering CS foundations, full-stack web, mobile (iOS/And
 3. Open the file. If Android asks, allow **Install unknown apps** for your browser or file manager, then tap **Install**.
 
 Every push to `main` builds a new APK automatically with GitHub Actions (`.github/workflows/android-apk.yml`).
-
-## 🌐 Use in the browser
-
-Open `www/index.html` directly, or serve the `www/` folder. Progress is saved in your browser (localStorage).
 
 ## 🛠 Develop
 

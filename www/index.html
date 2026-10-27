@@ -297,6 +297,12 @@
           <button id="btn-open-reset-modal" type="button" class="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 transition">
             Reset
           </button>
+          <button id="btn-install-app" type="button" class="hidden text-xs font-medium px-2.5 py-1.5 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 hover:opacity-90 transition">
+            Install app
+          </button>
+          <a id="link-android-apk" href="https://github.com/MoamenGo/3_year_roadmap_with_daily/releases/latest" target="_blank" rel="noopener noreferrer" class="hidden text-xs font-medium px-2.5 py-1.5 rounded-lg bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 transition">
+            Android APK ↓
+          </a>
         </div>
       </div>
     </div>
@@ -4388,6 +4394,35 @@
     if ("serviceWorker" in navigator && location.protocol === "https:" && !window.Capacitor) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     }
+
+    // Web version only: offer the Android APK and browser "install as app"
+    (function setupWebInstall() {
+      if (window.Capacitor) return;
+      const standalone = window.matchMedia('(display-mode: standalone)').matches;
+      const apkLink = document.getElementById('link-android-apk');
+      if (apkLink && !standalone && !/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+        apkLink.classList.remove('hidden');
+      }
+      const installBtn = document.getElementById('btn-install-app');
+      let deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn && !standalone) installBtn.classList.remove('hidden');
+      });
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice.catch(() => null);
+          deferredPrompt = null;
+          installBtn.classList.add('hidden');
+        });
+      }
+      window.addEventListener('appinstalled', () => {
+        if (installBtn) installBtn.classList.add('hidden');
+      });
+    })();
   </script>
 </body>
 </html>
